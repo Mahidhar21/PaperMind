@@ -5,6 +5,7 @@ from app.core.config import settings
 from app.api.routes.health import router as health_router
 from app.api.routes.upload import router as upload_router
 from app.api.routes.extract import router as extract_router
+from app.api.routes.embed import router as embed_router
 
 
 app = FastAPI(
@@ -29,6 +30,12 @@ app.include_router(
     extract_router,
     prefix=settings.API_V1_STR,
     tags=["Extract"]
+)
+
+app.include_router(
+    embed_router,
+    prefix=settings.API_V1_STR,
+    tags=["Embeddings"]
 )
 
 
