@@ -1,0 +1,3 @@
+SUPPORTED_FILE_TYPES = [".pdf"]
+
+MAX_FILE_SIZE_MB = 25
