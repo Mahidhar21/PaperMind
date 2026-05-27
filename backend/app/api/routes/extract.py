@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from pathlib import Path
 
 from app.services.pdf.extractor import extract_text_from_pdf
+from app.services.pdf.chunker import chunk_text
 
 router = APIRouter()
 
@@ -21,7 +22,10 @@ async def extract_pdf_text(filename: str):
 
     extracted_text = extract_text_from_pdf(str(file_path))
 
+    chunks = chunk_text(extracted_text)
+
     return {
         "filename": filename,
-        "text": extracted_text
+        "total_chunks": len(chunks),
+        "chunks": chunks
     }
