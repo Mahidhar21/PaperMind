@@ -9,6 +9,10 @@ from app.api.routes.embed import router as embed_router
 from app.api.routes.search import router as search_router
 from app.api.routes.chat import router as chat_router
 from app.api.routes.summary import router as summary_router
+from app.api.routes.stream_chat import (
+    router as stream_chat_router
+)
+
 
 
 app = FastAPI(
@@ -16,6 +20,11 @@ app = FastAPI(
     debug=settings.DEBUG
 )
 
+app.include_router(
+    stream_chat_router,
+    prefix=settings.API_V1_STR,
+    tags=["Streaming Chat"]
+)
 
 app.include_router(
     health_router,
