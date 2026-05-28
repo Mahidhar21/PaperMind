@@ -8,6 +8,7 @@ from app.api.routes.extract import router as extract_router
 from app.api.routes.embed import router as embed_router
 from app.api.routes.search import router as search_router
 from app.api.routes.chat import router as chat_router
+from app.api.routes.summary import router as summary_router
 
 
 app = FastAPI(
@@ -38,6 +39,12 @@ app.include_router(
     embed_router,
     prefix=settings.API_V1_STR,
     tags=["Embeddings"]
+)
+
+app.include_router(
+    summary_router,
+    prefix=settings.API_V1_STR,
+    tags=["Summary"]
 )
 
 app.include_router(
