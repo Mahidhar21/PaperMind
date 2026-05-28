@@ -7,6 +7,7 @@ from app.api.routes.upload import router as upload_router
 from app.api.routes.extract import router as extract_router
 from app.api.routes.embed import router as embed_router
 from app.api.routes.search import router as search_router
+from app.api.routes.chat import router as chat_router
 
 
 app = FastAPI(
@@ -43,6 +44,12 @@ app.include_router(
     search_router,
     prefix=settings.API_V1_STR,
     tags=["Search"]
+)
+
+app.include_router(
+    chat_router,
+    prefix=settings.API_V1_STR,
+    tags=["Chat"]
 )
 
 

@@ -1,4 +1,4 @@
-from sentence_transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer # type: ignore
 
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
