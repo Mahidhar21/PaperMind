@@ -1,5 +1,6 @@
 import faiss
 import numpy as np
+import pickle
 
 
 class FAISSVectorStore:
@@ -8,30 +9,79 @@ class FAISSVectorStore:
 
         self.dimension = dimension
 
-        self.index = faiss.IndexFlatL2(dimension)
+        self.index = faiss.IndexFlatL2(
+            dimension
+        )
 
-        self.chunks = []
+        self.documents = []
 
+    def add_embeddings(
+        self,
+        embeddings,
+        documents
+    ):
 
-    def add_embeddings(self, embeddings, chunks):
+        embeddings_array = np.array(
+            embeddings,
+            dtype="float32"
+        )
 
-        embeddings_array = np.array(embeddings).astype("float32")
+        self.index.add(
+            embeddings_array
+        )
 
-        self.index.add(embeddings_array)
+        self.documents.extend(
+            documents
+        )
 
-        self.chunks.extend(chunks)
+    def search(
+        self,
+        query_embedding,
+        top_k=3
+    ):
 
+        query_array = np.array(
+            [query_embedding],
+            dtype="float32"
+        )
 
-    def search(self, query_embedding, top_k=3):
-
-        query_array = np.array([query_embedding]).astype("float32")
-
-        distances, indices = self.index.search(query_array, top_k)
+        distances, indices = self.index.search(
+            query_array,
+            top_k
+        )
 
         results = []
 
-        for i in indices[0]:
+        for idx in indices[0]:
 
-            results.append(self.chunks[i])
+            if idx < len(self.documents):
+
+                results.append(
+                    self.documents[idx]
+                )
 
         return results
+
+    def save(self, index_path, docs_path):
+
+        faiss.write_index(
+            self.index,
+            index_path
+        )
+
+        with open(docs_path, "wb") as f:
+
+            pickle.dump(
+                self.documents,
+                f
+            )
+
+    def load(self, index_path, docs_path):
+
+        self.index = faiss.read_index(
+            index_path
+        )
+
+        with open(docs_path, "rb") as f:
+
+            self.documents = pickle.load(f)
