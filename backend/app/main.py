@@ -12,12 +12,20 @@ from app.api.routes.summary import router as summary_router
 from app.api.routes.stream_chat import (
     router as stream_chat_router
 )
+from fastapi.middleware.cors import CORSMiddleware
 
 
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
     debug=settings.DEBUG
+)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(
