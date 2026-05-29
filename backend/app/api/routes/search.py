@@ -22,9 +22,9 @@ async def search_pdf(filename: str, query: str):
             detail="File not found"
         )
 
-    extracted_text = extract_text_from_pdf(str(file_path))
+    pages = extract_text_from_pdf(str(file_path))
 
-    chunks = chunk_text(extracted_text)
+    chunks = chunk_text(pages)
 
     embeddings = []
 

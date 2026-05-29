@@ -21,9 +21,9 @@ async def embed_pdf(filename: str):
             detail="File not found"
         )
 
-    extracted_text = extract_text_from_pdf(str(file_path))
+    pages = extract_text_from_pdf(str(file_path))
 
-    chunks = chunk_text(extracted_text)
+    chunks = chunk_text(pages)
 
     embedded_chunks = []
 

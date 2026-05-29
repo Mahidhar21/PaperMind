@@ -34,13 +34,11 @@ def build_vector_database(pdf_path):
 
     docs_path = VECTOR_STORE_DIR / f"{filename}.pkl"
 
-    extracted_text = extract_text_from_pdf(
-        pdf_path
+    pages = extract_text_from_pdf(
+        str(pdf_path)
     )
 
-    chunks = chunk_text(
-        extracted_text
-    )
+    chunks = chunk_text(pages)
 
     embeddings = []
 

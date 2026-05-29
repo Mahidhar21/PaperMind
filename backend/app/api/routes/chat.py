@@ -90,8 +90,17 @@ async def chat_with_pdf(
         answer
     )
 
+    pages = sorted(
+        list(
+            set(
+                chunk["page"]
+                for chunk in relevant_chunks
+            )
+        )
+    )
+
     return {
         "query": query,
         "answer": answer,
-        "sources": relevant_chunks
+        "sources": pages
     }

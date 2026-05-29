@@ -22,12 +22,17 @@ async def summarize_paper(filename: str):
             detail="File not found"
         )
 
-    extracted_text = extract_text_from_pdf(
+    pages = extract_text_from_pdf(
         str(file_path)
     )
 
+    full_text = "\n".join(
+        page["text"]
+        for page in pages
+    )
+
     summary = generate_paper_summary(
-        extracted_text
+        full_text
     )
 
     return {
