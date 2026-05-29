@@ -11,6 +11,23 @@ VECTOR_STORE_DIR = Path(
     "vector_store"
 )
 
+import ollama
+
+
+def generate_graph_response(prompt):
+
+    response = ollama.chat(
+        model="qwen2.5:3b",
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
+    )
+
+    return response["message"]["content"]
+
 
 @router.get("/graph/{filename}")
 async def generate_graph(
@@ -35,7 +52,7 @@ async def generate_graph(
 
     text = "\n".join([
         chunk["text"]
-        for chunk in chunks[:20]
+        for chunk in chunks
     ])
 
     prompt = f"""
@@ -64,12 +81,20 @@ async def generate_graph(
         {text}
         """
 
-    result = generate_response(
-        query=prompt,
-        context="",
-        history=[]
+    result = generate_graph_response(
+        prompt
     )
 
+    import json
+
+    try:
+
+        graph = json.loads(result)
+
+    except:
+
+        graph = []
+
     return {
-        "graph": result
+        "graph": graph
     }

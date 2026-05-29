@@ -16,7 +16,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.routes.multi_chat import (
     router as multi_chat_router
 )
-from app.api.routes.graph import (
+from app.api.routes.multi_graph import (
     router as graph_router
 )
 
