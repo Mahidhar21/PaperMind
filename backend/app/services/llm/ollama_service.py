@@ -8,10 +8,12 @@ def generate_response(query, context, history):
     system_prompt = f"""
 You are a helpful research assistant.
 
-Answer the user's question ONLY using the provided context.
+Answer the user's question using the provided context.
 
-If the answer is not in the context, say:
-"I could not find the answer in the document."
+Be concise and factual.
+
+If relevant information exists in the context,
+use it to construct the answer.
 
 Context:
 {context}
@@ -30,9 +32,11 @@ Context:
     })
 
     response = ollama.chat(
-        model="tinyllama",
+        model="qwen2.5:3b",
         messages=messages
     )
+
+    print(context[:1000])
 
     return response["message"]["content"]
 
@@ -44,10 +48,12 @@ def stream_response(query, context, history):
     system_prompt = f"""
 You are a helpful research assistant.
 
-Answer the user's question ONLY using the provided context.
+Answer the user's question using the provided context.
 
-If the answer is not in the context, say:
-"I could not find the answer in the document."
+Be concise and factual.
+
+If relevant information exists in the context,
+use it to construct the answer.
 
 Context:
 {context}
@@ -66,7 +72,7 @@ Context:
     })
 
     stream = ollama.chat(
-        model="tinyllama",
+        model="qwen2.5:3b",
         messages=messages,
         stream=True
     )

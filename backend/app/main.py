@@ -13,6 +13,14 @@ from app.api.routes.stream_chat import (
     router as stream_chat_router
 )
 from fastapi.middleware.cors import CORSMiddleware
+from app.api.routes.multi_chat import (
+    router as multi_chat_router
+)
+from app.api.routes.graph import (
+    router as graph_router
+)
+
+
 
 
 
@@ -26,6 +34,12 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+
+app.include_router(
+    graph_router,
+    prefix=settings.API_V1_STR,
+    tags=["Knowledge Graph"]
 )
 
 app.include_router(
@@ -56,6 +70,12 @@ app.include_router(
     embed_router,
     prefix=settings.API_V1_STR,
     tags=["Embeddings"]
+)
+
+app.include_router(
+    multi_chat_router,
+    prefix=settings.API_V1_STR,
+    tags=["Multi PDF Chat"]
 )
 
 app.include_router(

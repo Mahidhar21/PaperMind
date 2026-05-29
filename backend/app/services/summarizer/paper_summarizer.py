@@ -13,7 +13,7 @@ Text:
 """
 
     response = ollama.chat(
-        model="tinyllama",
+        model="qwen2.5:3b",
         messages=[
             {
                 "role": "user",
@@ -41,7 +41,7 @@ Partial Summaries:
 """
 
     response = ollama.chat(
-        model="tinyllama",
+        model="qwen2.5:3b",
         messages=[
             {
                 "role": "user",
